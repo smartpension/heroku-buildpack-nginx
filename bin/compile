@@ -75,7 +75,8 @@ bin_dir=$build_dir/vendor/nginx
 mkdir -p "$bin_dir"
 
 # [ "$nginx" == "mainline" ] || [ "$nginx" == "stable" ]
-if ! test -d $cache_dir/nginx || ! test -f $cache_dir/nginx/.heroku/nginx-version || [ $(cat $cache_dir/nginx/.heroku/nginx-version) != "$nginx_version" ]; then
+# if ! test -d $cache_dir/nginx || ! test -f $cache_dir/nginx/.heroku/nginx-version || [ $(cat $cache_dir/nginx/.heroku/nginx-version) != "$nginx_version" ]; then
+if true; then
   info "Nginx version changed since last build; rebuilding."
 
   # Persist goodies like nginx-version in the slug
@@ -96,7 +97,7 @@ if ! test -d $cache_dir/nginx || ! test -f $cache_dir/nginx/.heroku/nginx-versio
 
   head "Compiling Nginx..."
   head "Configuring"
-  ./configure 2>&1 | indent
+  ./configure --with-http_ssl_module 2>&1 | indent
   head "Compiling with Make"
   make 2>&1 | indent
   head "Moving generated binary"
